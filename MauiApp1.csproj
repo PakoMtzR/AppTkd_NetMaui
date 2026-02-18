@@ -67,8 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="DTOs\" />
-	  <Folder Include="Viewmodels\" />
+	  <MauiXaml Update="Pages\StudentListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

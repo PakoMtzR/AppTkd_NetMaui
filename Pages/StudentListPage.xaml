@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.StudentListPage"
+             xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             Title="Lista de Estudiantes">
+
+
+
+    <VerticalStackLayout Spacing="10" Padding="10">
+        <Button Text="Agregar Nuevo Estudiante"
+                Command="{Binding AddNewStudentCommand}"
+                HorizontalOptions="Center" 
+                Padding="10"
+                Margin="10"/>
+
+        <CollectionView ItemsSource="{Binding Students}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:StudentDTO">
+                    <Frame Margin="10" Padding="10" CornerRadius="5" BackgroundColor="#101010" HasShadow="True">
+                        <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name, StringFormat='Nombre: {0}'}" FontAttributes="Bold" FontSize="Medium" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding PaternalSurname, StringFormat='Apellido Paterno: {0}'}" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding MaternalSurname, StringFormat='Apellido Materno: {0}'}" />
+                            <Button Grid.Row="0" Grid.Column="1" Text="Editar"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentListVM}}, Path=EditStudentCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Margin="0,0,5,0" />
+                            <Button Grid.Row="0" Grid.Column="2" Text="Eliminar" BackgroundColor="Red" TextColor="White"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentListVM}}, Path=DeleteStudentCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

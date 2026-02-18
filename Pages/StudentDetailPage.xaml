@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.StudentDetailPage"
+             xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:models="clr-namespace:MauiApp1.Models"
+             Title="Detalle de Estudiante">
+
+
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+
+            <Label Text="Nombre" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.Name}" Placeholder="Nombre del estudiante" />
+
+            <Label Text="Apellido Paterno" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.PaternalSurname}" Placeholder="Apellido Paterno" />
+
+            <Label Text="Apellido Materno" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.MaternalSurname}" Placeholder="Apellido Materno" />
+
+            <Label Text="Dirección" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.Address}" Placeholder="Dirección" />
+
+            <Label Text="Fecha de Nacimiento" FontAttributes="Bold" />
+            <DatePicker Date="{Binding Student.BirthDate}" Format="dd/MM/yyyy" />
+
+            <Label Text="Fecha de Inscripción" FontAttributes="Bold" />
+            <DatePicker Date="{Binding Student.EnrollmentDate}" Format="dd/MM/yyyy" />
+
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0" Text="Activo" FontAttributes="Bold" VerticalOptions="Center"/>
+                <CheckBox Grid.Column="1" IsChecked="{Binding Student.IsActive}" HorizontalOptions="End" />
+            </Grid>
+
+            <Label Text="Código" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.Code}" Placeholder="Código del estudiante" Keyboard="Numeric" />
+
+            <Label Text="Teléfono" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.Phone}" Placeholder="Número de teléfono" Keyboard="Telephone" />
+
+            <Label Text="Email" FontAttributes="Bold" />
+            <Entry Text="{Binding Student.Email}" Placeholder="Correo electrónico" Keyboard="Email" />
+
+            <Label Text="Ocupación" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding Occupations}"
+                    ItemDisplayBinding="{Binding Description}"
+                    SelectedItem="{Binding SelectedOccupation}">
+            </Picker>
+
+            <Label Text="Estado Civil" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding MaritalStatuses}"
+                    ItemDisplayBinding="{Binding Description}"
+                    SelectedItem="{Binding SelectedMaritalStatus}">
+            </Picker>
+
+            <Label Text="Cinturón" FontAttributes="Bold" />
+            <Picker ItemsSource="{Binding Belts}"
+                    ItemDisplayBinding="{Binding Description}"
+                    SelectedItem="{Binding SelectedBelt}">
+            </Picker>
+
+
+            <Grid ColumnDefinitions="*,*">
+                <Button Grid.Column="0" Text="Cancelar" Command="{Binding CancelCommand}" BackgroundColor="Gray" TextColor="White" Margin="5,0,0,0" />
+                <Button Grid.Column="1" Text="Guardar" Command="{Binding SaveStudentCommand}" Margin="0,0,5,0" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

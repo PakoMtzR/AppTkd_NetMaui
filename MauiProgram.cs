@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using MauiApp1.Data;
+using MauiApp1.Viewmodels;
+using MauiApp1.Services;
+using MauiApp1.Pages;
 
 namespace MauiApp1
 {
@@ -16,15 +19,32 @@ namespace MauiApp1
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            var databaseContext = new DatabaseContext();
-            databaseContext.Database.EnsureCreated();
-            databaseContext.Dispose();
+            // Register services for Dependency Injection
+            builder.Services.AddSingleton<DatabaseContext>();
+            builder.Services.AddSingleton<StudentService>();
+
+            // Register Viewmodels
+            builder.Services.AddSingleton<StudentListVM>();
+            builder.Services.AddSingleton<StudentDetailVM>();
+
+            // Register Pages
+            builder.Services.AddSingleton<StudentListPage>();
+            builder.Services.AddSingleton<StudentDetailPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            // Ensure database is created
+            var app = builder.Build();
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<DatabaseContext>();
+                context.Database.EnsureCreated();
+            }
+
+            return app;
         }
     }
 }
