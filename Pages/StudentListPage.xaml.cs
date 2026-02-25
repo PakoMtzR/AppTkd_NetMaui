@@ -9,4 +9,13 @@ public partial class StudentListPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is StudentListVM viewModel)
+        {
+            viewModel.LoadStudentsCommand.Execute(null);
+        }
+    }
 }

@@ -21,9 +21,25 @@
                 <DataTemplate x:DataType="dto:StudentDTO">
                     <Frame Margin="10" Padding="10" CornerRadius="5" BackgroundColor="#101010" HasShadow="True">
                         <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="Medium">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Name"/>
+                                        <Binding Path="PaternalSurname"/>
+                                        <Binding Path="MaternalSurname"/>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            
+                            <!--
                             <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name, StringFormat='Nombre: {0}'}" FontAttributes="Bold" FontSize="Medium" />
                             <Label Grid.Row="1" Grid.Column="0" Text="{Binding PaternalSurname, StringFormat='Apellido Paterno: {0}'}" />
                             <Label Grid.Row="2" Grid.Column="0" Text="{Binding MaternalSurname, StringFormat='Apellido Materno: {0}'}" />
+                            -->
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Code, StringFormat='Codigo: {0}'}" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding BeltDescription, StringFormat='Grado: {0}'}" />
+                            
+                            
                             <Button Grid.Row="0" Grid.Column="1" Text="Editar"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentListVM}}, Path=EditStudentCommand}"
                                     CommandParameter="{Binding .}"

@@ -9,7 +9,7 @@ using System.Linq; // For .FirstOrDefault()
 
 namespace MauiApp1.Viewmodels
 {
-    [QueryProperty(nameof(StudentId), nameof(StudentId))]
+    [QueryProperty(nameof(StudentId), "IdStudent")]
     public partial class StudentDetailVM : ObservableObject, IQueryAttributable
     {
         private readonly StudentService _studentService;
@@ -52,10 +52,10 @@ namespace MauiApp1.Viewmodels
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            // Load picker data first, as it's needed to set selected items
-            await LoadPickerData();
-
-            if (query.TryGetValue(nameof(StudentId), out object studentIdParam))
+            // Reset StudentId before processing new query
+            StudentId = 0; 
+            
+            if (query.TryGetValue("IdStudent", out object studentIdParam))
             {
                 if (studentIdParam is string studentIdString && int.TryParse(studentIdString, out int id))
                 {
@@ -65,33 +65,10 @@ namespace MauiApp1.Viewmodels
                 {
                     StudentId = studentIdInt;
                 }
-
-                if (StudentId > 0)
-                {
-                    Debug.WriteLine($"Attempting to load student with ID: {StudentId}");
-                    Student = await _studentService.GetById(StudentId);
-                    if (Student == null)
-                    {
-                        Debug.WriteLine($"Student with ID {StudentId} not found. Initializing new student.");
-                        Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
-                    }
-                    else
-                    {
-                        // Set selected picker items based on loaded student's FK IDs
-                        SelectedOccupation = Occupations?.FirstOrDefault(o => o.IdStudentOccupation == Student.OccupationId);
-                        SelectedMaritalStatus = MaritalStatuses?.FirstOrDefault(m => m.IdStudentMaritalStatus == Student.MaritalStatusId);
-                        SelectedBelt = Belts?.FirstOrDefault(b => b.IdStudentBelt == Student.BeltId);
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine("No valid StudentId received, initializing new student.");
-                    Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
-                }
-            } else {
-                 Debug.WriteLine("No StudentId parameter received, initializing new student.");
-                 Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
             }
+
+            // Let the command handle the actual loading logic
+            await LoadStudentDetails();
         }
 
         private async Task LoadPickerData()
@@ -99,6 +76,51 @@ namespace MauiApp1.Viewmodels
             Occupations = await _studentService.GetAllOccupations();
             MaritalStatuses = await _studentService.GetAllMaritalStatuses();
             Belts = await _studentService.GetAllBelts();
+        }
+
+        private async Task LoadStudentDetails()
+        {
+            IsLoading = true;
+            try
+            {
+                await LoadPickerData(); // Load reference data first
+
+                if (StudentId > 0) // Existing student
+                {
+                    Title = "Editar Estudiante";
+                    Debug.WriteLine($"Attempting to load student with ID from LoadStudentDetailsCommand: {StudentId}");
+                    var loadedStudent = await _studentService.GetById(StudentId);
+
+                    if (loadedStudent == null)
+                    {
+                        Debug.WriteLine($"Student with ID {StudentId} not found. Initializing new student as fallback.");
+                        Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
+                        Title = "Nuevo Estudiante"; // Revert to new if not found
+                    }
+                    else
+                    {
+                        Student = loadedStudent;
+                        // Set selected picker items based on loaded student's FK IDs
+                        SelectedOccupation = Occupations?.FirstOrDefault(o => o.IdStudentOccupation == Student.OccupationId);
+                        SelectedMaritalStatus = MaritalStatuses?.FirstOrDefault(m => m.IdStudentMaritalStatus == Student.MaritalStatusId);
+                        SelectedBelt = Belts?.FirstOrDefault(b => b.IdStudentBelt == Student.BeltId);
+                    }
+                }
+                else // New student
+                {
+                    Title = "Nuevo Estudiante";
+                    Debug.WriteLine("No valid StudentId, initializing new student in LoadStudentDetailsCommand.");
+                    Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
+                    // Ensure pickers are cleared for a new student entry
+                    SelectedOccupation = null;
+                    SelectedMaritalStatus = null;
+                    SelectedBelt = null;
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         partial void OnSelectedOccupationChanged(StudentOccupation value)
@@ -162,47 +184,6 @@ namespace MauiApp1.Viewmodels
         private async Task Cancel()
         {
             await Shell.Current.GoToAsync("..");
-        }
-
-        [RelayCommand]
-        public async Task LoadStudentDetailsCommand()
-        {
-            IsLoading = true;
-            try
-            {
-                await LoadPickerData(); // Load reference data first
-
-                if (StudentId > 0) // Existing student
-                {
-                    Debug.WriteLine($"Attempting to load student with ID from LoadStudentDetailsCommand: {StudentId}");
-                    Student = await _studentService.GetById(StudentId);
-                    Title = "Editar Estudiante";
-
-                    if (Student == null)
-                    {
-                        Debug.WriteLine($"Student with ID {StudentId} not found. Initializing new student.");
-                        Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
-                        Title = "Nuevo Estudiante"; // Revert to new if not found
-                    }
-                    else
-                    {
-                        // Set selected picker items based on loaded student's FK IDs
-                        SelectedOccupation = Occupations?.FirstOrDefault(o => o.IdStudentOccupation == Student.OccupationId);
-                        SelectedMaritalStatus = MaritalStatuses?.FirstOrDefault(m => m.IdStudentMaritalStatus == Student.MaritalStatusId);
-                        SelectedBelt = Belts?.FirstOrDefault(b => b.IdStudentBelt == Student.BeltId);
-                    }
-                }
-                else // New student
-                {
-                    Debug.WriteLine("No valid StudentId, initializing new student in LoadStudentDetailsCommand.");
-                    Student = new StudentDTO { BirthDate = DateTime.Now, EnrollmentDate = DateTime.Now, IsActive = true };
-                    Title = "Nuevo Estudiante";
-                }
-            }
-            finally
-            {
-                IsLoading = false;
-            }
         }
     }
 }
