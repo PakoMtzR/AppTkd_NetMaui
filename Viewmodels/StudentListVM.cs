@@ -3,28 +3,61 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using MauiApp1.DTOs;
 using MauiApp1.Services;
-using MauiApp1.Pages; // Assuming StudentDetailPage is in Pages
-using System.Collections.Generic; // Required for IDictionary
-using System.Linq; // Required for FirstOrDefault
+using MauiApp1.Pages;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MauiApp1.Viewmodels
 {
     public partial class StudentListVM : ObservableObject, IQueryAttributable
     {
         private readonly StudentService _studentService;
+        private List<StudentDTO> _allStudents = new();  // Lista de todos los alumnos 
 
         [ObservableProperty]
-        public ObservableCollection<StudentDTO> students;
+        public ObservableCollection<StudentDTO> students;   // Lista de alumnos VISIBLES en el page
 
         [ObservableProperty]
         public bool isBusy;
+
+        [ObservableProperty]
+        string searchText;
 
         public StudentListVM(StudentService studentService)
         {
             _studentService = studentService;
             Students = new ObservableCollection<StudentDTO>();
-            // Since "carga de alumnos" was removed, the collection starts empty.
-            // Students will be added/updated manually after CRUD operations.
+        }
+
+        partial void OnSearchTextChanged(string value)
+        {
+            PerformSearch();
+        }
+
+        private void PerformSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Students.Clear();
+                foreach (var student in _allStudents)
+                {
+                    Students.Add(student);
+                }
+            }
+            else
+            {
+                var filteredStudents = _allStudents
+                    .Where(s => (s.Name ?? "").Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                                (s.PaternalSurname ?? "").Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                                (s.MaternalSurname ?? "").Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                Students.Clear();
+                foreach (var student in filteredStudents)
+                {
+                    Students.Add(student);
+                }
+            }
         }
 
         [RelayCommand]
@@ -35,12 +68,8 @@ namespace MauiApp1.Viewmodels
             try
             {
                 IsBusy = true;
-                var studentList = await _studentService.GetAllStudents();
-                Students.Clear();
-                foreach (var student in studentList)
-                {
-                    Students.Add(student);
-                }
+                _allStudents = await _studentService.GetAllStudents();
+                PerformSearch(); // Apply current search text or load all if search is empty
             }
             finally
             {
@@ -50,9 +79,7 @@ namespace MauiApp1.Viewmodels
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            // Always reload all students when navigating to this page to ensure data freshness.
             await LoadStudentsAsync();
-            // Clear the query attributes after processing to prevent repeated actions.
             query.Clear();
         }
 
@@ -80,6 +107,13 @@ namespace MauiApp1.Viewmodels
             if (confirm)
             {
                 await _studentService.Delete(student.IdStudent);
+                
+                // Remove from both lists to keep UI and master list in sync
+                var studentToRemoveFromAll = _allStudents.FirstOrDefault(s => s.IdStudent == student.IdStudent);
+                if(studentToRemoveFromAll != null)
+                {
+                    _allStudents.Remove(studentToRemoveFromAll);
+                }
                 Students.Remove(student);
             }
         }
