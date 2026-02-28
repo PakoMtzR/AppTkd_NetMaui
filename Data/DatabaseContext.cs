@@ -12,10 +12,19 @@ namespace MauiApp1.Data
     public class DatabaseContext : DbContext
     {
         // Definición de los DbSet para cada entidad
+        // Tablas relacionadas con "Alumnos"
         public DbSet<Student> Students { get; set; }
         public DbSet<StudentOccupation> StudentOccupations { get; set; }
         public DbSet<StudentMaritalStatus> StudentMaritalStatuses { get; set; }
         public DbSet<StudentBelt> StudentBelts { get; set; }
+        // Tablas relacionadas con "Inventario/Ventas"
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<SaleDetail> SaleDetails { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         // Configuración de la conexión a la base de datos SQLite
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -25,6 +34,8 @@ namespace MauiApp1.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configuracion de las Relaciones 
+            // Configuración de Relaciones para Alumnos
             // Configuración de Student - Occupation (Uno a Muchos)
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.StudentOccupation)
@@ -45,6 +56,49 @@ namespace MauiApp1.Data
                 .WithMany(m => m.Students)
                 .HasForeignKey(s => s.IdStudentMaritalStatus)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuración de las relaciones para Inventario/Ventas
+            // Configuración de Product - Category (Uno a Muchos)
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.IdCategory)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuración de Product - Brand (Uno a Muchos)
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Brand)
+                .WithMany(b => b.Products)
+                .HasForeignKey(p => p.IdBrand)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuración de SaleDetail - Sale (Uno a Muchos)
+            modelBuilder.Entity<SaleDetail>()
+                .HasOne(sd => sd.Sale)
+                .WithMany(s => s.SaleDetails)
+                .HasForeignKey(sd => sd.IdSale)
+                .OnDelete(DeleteBehavior.Cascade);  // Cascada para eliminar detalles si se elimina la venta
+
+            // Configuración de SaleDetail - Product (Uno a Muchos)
+            modelBuilder.Entity<SaleDetail>()
+                .HasOne(sd => sd.Product)
+                .WithMany(p => p.SaleDetails)
+                .HasForeignKey(sd => sd.IdProduct)
+                .OnDelete(DeleteBehavior.Restrict);  // No cascada, pero obligatoria
+
+            // Configuración de PurchaseOrderDetail - PurchaseOrder (Uno a Muchos)
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .HasOne(pod => pod.PurchaseOrder)
+                .WithMany(po => po.PurchaseOrderDetails)
+                .HasForeignKey(pod => pod.IdPurchaseOrder)
+                .OnDelete(DeleteBehavior.Cascade);  // Cascada para eliminar detalles si se elimina la orden de compra
+
+            // Configuración de PurchaseOrderDetail - Product (Uno a Muchos)
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .HasOne(pod => pod.Product)
+                .WithMany(p => p.PurchaseOrderDetails)
+                .HasForeignKey(pod => pod.IdProduct)
+                .OnDelete(DeleteBehavior.Restrict);  // No cascada, pero obligatoria
 
             // Datos de las tablas de referencia
             modelBuilder.Entity<StudentOccupation>().HasData(
@@ -93,6 +147,20 @@ namespace MauiApp1.Data
                 new StudentBelt { IdStudentBelt = 26, Color = "Negra", Description = "9° Dan" }
             );
 
+            modelBuilder.Entity<Category>().HasData(
+                new Category { IdCategory = 1, Description = "Uniformes" },
+                new Category { IdCategory = 2, Description = "Cintas, Distintivos y Cuellos" },
+                new Category { IdCategory = 3, Description = "Protecciones" },
+                new Category { IdCategory = 4, Description = "Ropa" },
+                new Category { IdCategory = 5, Description = "Tenis" },
+                new Category { IdCategory = 6, Description = "Mochilas" }
+            );
+
+            modelBuilder.Entity<Brand>().HasData(
+                new Brand { IdBrand = 1, Name = "MOONDO"},
+                new Brand { IdBrand = 2, Name = "KOS" },
+                new Brand { IdBrand = 3, Name = "MOOTO" }
+            );
         }
 
     }

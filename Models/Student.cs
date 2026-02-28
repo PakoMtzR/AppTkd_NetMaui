@@ -23,7 +23,7 @@ namespace MauiApp1.Models
         public string Phone { get; set; }
         public string? Email { get; set; }
 
-        // Foreign keys
+        // Llaves Foraneas
         public int IdStudentOccupation { get; set; }
         public int IdStudentMaritalStatus { get; set; }
         public int IdStudentBelt { get; set; }

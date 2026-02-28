@@ -13,7 +13,7 @@ namespace MauiApp1.Models
         [MaxLength(50)]
         public string Description { get; set; }
 
-        // Propiedad de navegación para la relación con Student
+        // Propiedad de navegación para la relación con 'Student'
         public ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }
