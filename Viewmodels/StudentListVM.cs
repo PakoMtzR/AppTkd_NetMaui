@@ -12,10 +12,10 @@ namespace MauiApp1.Viewmodels
     public partial class StudentListVM : ObservableObject, IQueryAttributable
     {
         private readonly StudentService _studentService;
-        private List<StudentDTO> _allStudents = new();  // Lista de todos los alumnos 
+        private List<StudentDTO> _allStudents = new();  // Lista de todos los alumnos en la BD
 
         [ObservableProperty]
-        public ObservableCollection<StudentDTO> students;   // Lista de alumnos VISIBLES en el page
+        public ObservableCollection<StudentDTO> students;   // Lista de alumnos VISIBLES en la vista
 
         [ObservableProperty]
         public bool isBusy;

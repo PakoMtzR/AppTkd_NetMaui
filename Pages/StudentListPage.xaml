@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.Pages.StudentListPage"
              xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
              xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:Class="MauiApp1.Pages.StudentListPage"
              Title="Lista de Estudiantes">
-
-
 
     <VerticalStackLayout Spacing="10" Padding="10">
         <Grid ColumnDefinitions="*, Auto">
@@ -37,12 +35,6 @@
                                     </MultiBinding>
                                 </Label.Text>
                             </Label>
-                            
-                            <!--
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name, StringFormat='Nombre: {0}'}" FontAttributes="Bold" FontSize="Medium" />
-                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding PaternalSurname, StringFormat='Apellido Paterno: {0}'}" />
-                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding MaternalSurname, StringFormat='Apellido Materno: {0}'}" />
-                            -->
                             <Label Grid.Row="1" Grid.Column="0" Text="{Binding Code, StringFormat='Codigo: {0}'}" />
                             <Label Grid.Row="2" Grid.Column="0" Text="{Binding BeltDescription, StringFormat='Grado: {0}'}" />
                             
@@ -58,6 +50,9 @@
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No hay alumnos registrados." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+            </CollectionView.EmptyView>
         </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

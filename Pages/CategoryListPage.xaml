@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:Class="MauiApp1.Pages.CategoryListPage"
+             Title="Categorías">
+
+    <VerticalStackLayout Spacing="10" Padding="10">
+        <Grid ColumnDefinitions="*, Auto">
+            <SearchBar  Grid.Column="0"
+                        Placeholder="Buscar categoría..."
+                        Text="{Binding SearchText}"
+                        Margin="10,0"/>
+
+            <Button Grid.Column="1"
+                    Text="Agregar"
+                    Command="{Binding AddNewCategoryCommand}"
+                    HorizontalOptions="Center" 
+                    Padding="10"/>
+        </Grid>
+
+        <!-- Lista de categorias -->
+        <CollectionView ItemsSource="{Binding Categories}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="{Binding Description}" FontSize="Medium" VerticalOptions="Center" />
+                        <Button Grid.Column="1" Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" Margin="5,0" />
+                        <Button Grid.Column="2" Text="Eliminar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding .}" BackgroundColor="Red" Margin="5,0" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No hay categorías para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

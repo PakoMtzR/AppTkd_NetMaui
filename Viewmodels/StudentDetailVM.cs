@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.DTOs;
 using MauiApp1.Services;
-using MauiApp1.Models; // For StudentOccupation, StudentMaritalStatus, StudentBelt
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq; // For .FirstOrDefault()
@@ -27,22 +26,22 @@ namespace MauiApp1.Viewmodels
         public bool isLoading;
 
         [ObservableProperty]
-        public List<StudentOccupation> occupations;
+        public List<StudentOccupationDTO> occupations;
 
         [ObservableProperty]
-        public List<StudentMaritalStatus> maritalStatuses;
+        public List<StudentMaritalStatusDTO> maritalStatuses;
 
         [ObservableProperty]
-        public List<StudentBelt> belts;
+        public List<StudentBeltDTO> belts;
 
         [ObservableProperty]
-        public StudentOccupation selectedOccupation;
+        public StudentOccupationDTO selectedOccupation;
 
         [ObservableProperty]
-        public StudentMaritalStatus selectedMaritalStatus;
+        public StudentMaritalStatusDTO selectedMaritalStatus;
 
         [ObservableProperty]
-        public StudentBelt selectedBelt;
+        public StudentBeltDTO selectedBelt;
 
         public StudentDetailVM(StudentService studentService)
         {
@@ -101,9 +100,9 @@ namespace MauiApp1.Viewmodels
                     {
                         Student = loadedStudent;
                         // Set selected picker items based on loaded student's FK IDs
-                        SelectedOccupation = Occupations?.FirstOrDefault(o => o.IdStudentOccupation == Student.OccupationId);
-                        SelectedMaritalStatus = MaritalStatuses?.FirstOrDefault(m => m.IdStudentMaritalStatus == Student.MaritalStatusId);
-                        SelectedBelt = Belts?.FirstOrDefault(b => b.IdStudentBelt == Student.BeltId);
+                        SelectedOccupation = Occupations?.FirstOrDefault(o => o.IdStudentOccupation == Student.IdStudentOccupation);
+                        SelectedMaritalStatus = MaritalStatuses?.FirstOrDefault(m => m.IdStudentMaritalStatus == Student.IdStudentMaritalStatus);
+                        SelectedBelt = Belts?.FirstOrDefault(b => b.IdStudentBelt == Student.IdStudentBelt);
                     }
                 }
                 else // New student
@@ -123,27 +122,27 @@ namespace MauiApp1.Viewmodels
             }
         }
 
-        partial void OnSelectedOccupationChanged(StudentOccupation value)
+        partial void OnSelectedOccupationChanged(StudentOccupationDTO value)
         {
             if (Student != null && value != null)
             {
-                Student.OccupationId = value.IdStudentOccupation;
+                Student.IdStudentOccupation = value.IdStudentOccupation;
             }
         }
 
-        partial void OnSelectedMaritalStatusChanged(StudentMaritalStatus value)
+        partial void OnSelectedMaritalStatusChanged(StudentMaritalStatusDTO value)
         {
             if (Student != null && value != null)
             {
-                Student.MaritalStatusId = value.IdStudentMaritalStatus;
+                Student.IdStudentMaritalStatus = value.IdStudentMaritalStatus;
             }
         }
 
-        partial void OnSelectedBeltChanged(StudentBelt value)
+        partial void OnSelectedBeltChanged(StudentBeltDTO value)
         {
             if (Student != null && value != null)
             {
-                Student.BeltId = value.IdStudentBelt;
+                Student.IdStudentBelt = value.IdStudentBelt;
             }
         }
 
@@ -155,9 +154,9 @@ namespace MauiApp1.Viewmodels
 
             // FKs are already updated by OnSelected...Changed methods
             // Now ensure they are set if not selected by the user (e.g., default value)
-            if (SelectedOccupation != null) Student.OccupationId = SelectedOccupation.IdStudentOccupation;
-            if (SelectedMaritalStatus != null) Student.MaritalStatusId = SelectedMaritalStatus.IdStudentMaritalStatus;
-            if (SelectedBelt != null) Student.BeltId = SelectedBelt.IdStudentBelt;
+            if (SelectedOccupation != null) Student.IdStudentOccupation = SelectedOccupation.IdStudentOccupation;
+            if (SelectedMaritalStatus != null) Student.IdStudentMaritalStatus = SelectedMaritalStatus.IdStudentMaritalStatus;
+            if (SelectedBelt != null) Student.IdStudentBelt = SelectedBelt.IdStudentBelt;
 
 
             StudentDTO savedStudent;

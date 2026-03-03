@@ -18,9 +18,9 @@ namespace MauiApp1.DTOs
         public string? Email { get; set; }
 
         // Foreign key IDs - these are necessary for mapping back to the Student model
-        public int OccupationId { get; set; }
-        public int MaritalStatusId { get; set; }
-        public int BeltId { get; set; }
+        public int IdStudentOccupation { get; set; }
+        public int IdStudentMaritalStatus { get; set; }
+        public int IdStudentBelt { get; set; }
 
         // Descriptive properties for display in UI (optional, can be populated during mapping)
         public string? BeltColor { get; set; }

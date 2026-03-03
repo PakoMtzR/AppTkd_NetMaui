@@ -35,9 +35,9 @@ namespace MauiApp1.Services
                 Code = student.Code,
                 Phone = student.Phone,
                 Email = student.Email,
-                OccupationId = student.IdStudentOccupation,
-                MaritalStatusId = student.IdStudentMaritalStatus,
-                BeltId = student.IdStudentBelt,
+                IdStudentOccupation = student.IdStudentOccupation,
+                IdStudentMaritalStatus = student.IdStudentMaritalStatus,
+                IdStudentBelt = student.IdStudentBelt,
                 BeltColor = student.StudentBelt?.Color, // Null-conditional operator for navigation property
                 BeltDescription = student.StudentBelt?.Description,
                 MaritalStatusDescription = student.StudentMaritalStatus?.Description,
@@ -62,12 +62,45 @@ namespace MauiApp1.Services
                 Code = dto.Code,
                 Phone = dto.Phone,
                 Email = dto.Email,
-                IdStudentOccupation = dto.OccupationId,
-                IdStudentMaritalStatus = dto.MaritalStatusId,
-                IdStudentBelt = dto.BeltId
+                IdStudentOccupation = dto.IdStudentOccupation,
+                IdStudentMaritalStatus = dto.IdStudentMaritalStatus,
+                IdStudentBelt = dto.IdStudentBelt
             };
         }
         // --- End Mappers ---
+
+        // --- New Mappers for reference data ---
+        private StudentOccupationDTO MapToOccupationDTO(StudentOccupation occupation)
+        {
+            if (occupation == null) return null;
+            return new StudentOccupationDTO
+            {
+                IdStudentOccupation = occupation.IdStudentOccupation,
+                Description = occupation.Description
+            };
+        }
+
+        private StudentMaritalStatusDTO MapToMaritalStatusDTO(StudentMaritalStatus maritalStatus)
+        {
+            if (maritalStatus == null) return null;
+            return new StudentMaritalStatusDTO
+            {
+                IdStudentMaritalStatus = maritalStatus.IdStudentMaritalStatus,
+                Description = maritalStatus.Description
+            };
+        }
+
+        private StudentBeltDTO MapToBeltDTO(StudentBelt belt)
+        {
+            if (belt == null) return null;
+            return new StudentBeltDTO
+            {
+                IdStudentBelt = belt.IdStudentBelt,
+                Color = belt.Color,
+                Description = belt.Description
+            };
+        }
+        // --- End New Mappers ---
 
 
         public async Task<StudentDTO> GetById(int id)
@@ -105,9 +138,9 @@ namespace MauiApp1.Services
                 student.Code = dto.Code;
                 student.Phone = dto.Phone;
                 student.Email = dto.Email;
-                student.IdStudentOccupation = dto.OccupationId;
-                student.IdStudentMaritalStatus = dto.MaritalStatusId;
-                student.IdStudentBelt = dto.BeltId;
+                student.IdStudentOccupation = dto.IdStudentOccupation;
+                student.IdStudentMaritalStatus = dto.IdStudentMaritalStatus;
+                student.IdStudentBelt = dto.IdStudentBelt;
 
                 _context.Students.Update(student);
                 await _context.SaveChangesAsync();
@@ -124,19 +157,22 @@ namespace MauiApp1.Services
             }
         }
 
-        public async Task<List<StudentOccupation>> GetAllOccupations()
+        public async Task<List<StudentOccupationDTO>> GetAllOccupations()
         {
-            return await _context.StudentOccupations.ToListAsync();
+            var occupations = await _context.StudentOccupations.ToListAsync();
+            return occupations.Select(o => MapToOccupationDTO(o)).ToList();
         }
 
-        public async Task<List<StudentMaritalStatus>> GetAllMaritalStatuses()
+        public async Task<List<StudentMaritalStatusDTO>> GetAllMaritalStatuses()
         {
-            return await _context.StudentMaritalStatuses.ToListAsync();
+            var maritalStatuses = await _context.StudentMaritalStatuses.ToListAsync();
+            return maritalStatuses.Select(m => MapToMaritalStatusDTO(m)).ToList();
         }
 
-        public async Task<List<StudentBelt>> GetAllBelts()
+        public async Task<List<StudentBeltDTO>> GetAllBelts()
         {
-            return await _context.StudentBelts.ToListAsync();
+            var belts = await _context.StudentBelts.ToListAsync();
+            return belts.Select(b => MapToBeltDTO(b)).ToList();
         }
 
         public async Task<List<StudentDTO>> GetAllStudents()
