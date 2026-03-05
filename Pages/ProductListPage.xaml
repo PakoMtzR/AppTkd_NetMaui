@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
+             x:Class="MauiApp1.Pages.ProductListPage"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             Title="Productos">
+
+    <VerticalStackLayout Spacing="10" Padding="10">
+        <Grid ColumnDefinitions="*, Auto">
+            <SearchBar Grid.Column="0"
+                        Placeholder="Buscar producto..."
+                        Text="{Binding SearchText}"
+                        SearchCommand="{Binding PerformSearchCommand}"
+                        Margin="0,0,10,0"/>
+            <Button Grid.Column="1"
+                    Text="Agregar"
+                    Command="{Binding AddNewProductCommand}"
+                    HorizontalOptions="Center" 
+                    Padding="10"/>
+        </Grid>
+
+        <!-- Category Filter Picker -->
+        <Picker ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                ItemDisplayBinding="{Binding Description}"
+                Title="Filtrar por Categoría"
+                Margin="0,0,0,10" />
+
+        <CollectionView ItemsSource="{Binding Products}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedProduct}">
+            <!-- Cambiado a Single para permitir selección y binding -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:ProductDTO">
+                    <Border Padding="12" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Description}" FontSize="Medium" />
+                                <HorizontalStackLayout>
+                                    <Label Text="Categoría: " FontAttributes="Bold" />
+                                    <Label Text="{Binding CategoryDescription}" />
+                                    <Label Text=" | Marca: " FontAttributes="Bold" />
+                                    <Label Text="{Binding BrandName}" />
+                                    <Label Text=" | Stock: " FontAttributes="Bold" />
+                                    <Label Text="{Binding Stock}" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1" VerticalOptions="Start" Text="Editar"  Margin="8,0" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListVM}}, Path=EditProductCommand}" 
+                                    CommandParameter="{Binding .}"/>
+                            <Button Grid.Column="2" VerticalOptions="Start" Text="Eliminar" BackgroundColor="Red" TextColor="White" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListVM}}, Path=DeleteProductCommand}" 
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No hay productos para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

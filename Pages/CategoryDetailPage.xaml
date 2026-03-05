@@ -7,13 +7,13 @@
              x:DataType="viewmodels:CategoryDetailVM"
              Size="300,200">
 
-    <VerticalStackLayout Spacing="10" Padding="20">
+    <VerticalStackLayout Spacing="10" Padding="20" Background="{StaticResource PrimaryDarkText}">
         <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="Center" />
         <Entry Text="{Binding Category.Description}" Placeholder="Introduce la descripción" />
 
         <HorizontalStackLayout Spacing="10" HorizontalOptions="CenterAndExpand">
+            <Button Text="Cancelar" Command="{Binding CancelCommand}" WidthRequest="100" BackgroundColor="Red" TextColor="White"/>
             <Button Text="Guardar" Command="{Binding SaveCategoryCommand}" WidthRequest="100" />
-            <Button Text="Cancelar" Command="{Binding CancelCommand}" WidthRequest="100" BackgroundColor="Gray" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </mct:Popup>

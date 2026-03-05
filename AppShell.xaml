@@ -7,19 +7,26 @@
     xmlns:views="clr-namespace:MauiApp1.Pages"
     Title="MauiApp1">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
-    <ShellContent
-        Title="Alumnos"
-        ContentTemplate="{DataTemplate views:StudentListPage}"
-        Route="StudentPage" />
-
-    <ShellContent
-        Title="Categorías"
-        ContentTemplate="{DataTemplate views:CategoryListPage}"
-        Route="CategoryPage" />
-
+    <FlyoutItem Title="Home">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Alumnos">
+        <ShellContent
+            Title="Alumnos"
+            ContentTemplate="{DataTemplate views:StudentListPage}"
+            Route="StudentPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Inventario">
+        <ShellContent
+            Title="Productos"
+            ContentTemplate="{DataTemplate views:ProductListPage}"
+            Route="ProductPage" />
+        <ShellContent
+            Title="Categorías"
+            ContentTemplate="{DataTemplate views:CategoryListPage}"
+            Route="CategoryPage" />
+    </FlyoutItem>
 </Shell>

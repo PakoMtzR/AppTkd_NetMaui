@@ -11,7 +11,7 @@
             <SearchBar  Grid.Column="0"
                         Placeholder="Buscar categoría..."
                         Text="{Binding SearchText}"
-                        Margin="10,0"/>
+                        Margin="0,0,10,0"/>
 
             <Button Grid.Column="1"
                     Text="Agregar"
@@ -20,26 +20,27 @@
                     Padding="10"/>
         </Grid>
 
-        <!-- Lista de categorias -->
-        <CollectionView ItemsSource="{Binding Categories}"
-                        SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="{Binding Description}" FontSize="Medium" VerticalOptions="Center" />
-                        <Button Grid.Column="1" Text="Editar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" Margin="5,0" />
-                        <Button Grid.Column="2" Text="Eliminar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding .}" BackgroundColor="Red" Margin="5,0" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.EmptyView>
-                <Label Text="No hay categorías para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
-            </CollectionView.EmptyView>
-        </CollectionView>
+        <ScrollView>
+            <CollectionView ItemsSource="{Binding Categories}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="10" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Grid Padding="5" ColumnDefinitions="*,Auto,Auto">
+                                <Label Grid.Column="0" Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" />
+                                <Button Grid.Column="1" Text="Editar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" Margin="10,0" />
+                                <Button Grid.Column="2" Text="Eliminar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="No hay categorías para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>

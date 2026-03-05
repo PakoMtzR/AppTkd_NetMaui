@@ -14,35 +14,39 @@ namespace MauiApp1
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit() // Add this line to register CommunityToolkit.Maui
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Register services for Dependency Injection
+            // Registrar registros para la Inyeccion de Dependencias
             builder.Services.AddSingleton<DatabaseContext>();
             builder.Services.AddSingleton<StudentService>();
             builder.Services.AddSingleton<InventoryService>();
 
-            // Register Viewmodels
+            // Registrar Viewmodels
             builder.Services.AddSingleton<StudentListVM>();
-            builder.Services.AddSingleton<StudentDetailVM>();
+            builder.Services.AddTransient<StudentDetailVM>();
             builder.Services.AddSingleton<CategoryListVM>();
             builder.Services.AddTransient<CategoryDetailVM>();
+            builder.Services.AddSingleton<ProductListVM>(); 
+            builder.Services.AddTransient<ProductDetailVM>();
 
-            // Register Pages
+            // Registrar Paginas
             builder.Services.AddSingleton<StudentListPage>();
-            builder.Services.AddSingleton<StudentDetailPage>();
+            builder.Services.AddTransient<StudentDetailPage>();
             builder.Services.AddSingleton<CategoryListPage>();
             builder.Services.AddTransient<CategoryDetailPage>();
+            builder.Services.AddSingleton<ProductListPage>(); 
+            builder.Services.AddTransient<ProductDetailPage>(); 
 
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
-            // Ensure database is created
+            // Asegurar que la base de datos es creada
             var app = builder.Build();
             using (var scope = app.Services.CreateScope())
             {

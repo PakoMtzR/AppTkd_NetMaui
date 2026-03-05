@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:Class="MauiApp1.Pages.ProductDetailPage"
+             Title="{Binding Title}"
+             x:DataType="viewmodels:ProductDetailVM">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <ScrollView>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Descripción" FontSize="Medium" />
+                    <Entry Text="{Binding Product.Description}" Placeholder="Descripción del producto" />
+
+                    <Label Text="Precio de Venta" FontSize="Medium" />
+                    <Entry Text="{Binding Product.SalePrice}" Placeholder="0.00" Keyboard="Numeric" />
+
+                    <Label Text="Precio de Compra" FontSize="Medium" />
+                    <Entry Text="{Binding Product.PurchasePrice}" Placeholder="0.00" Keyboard="Numeric" />
+
+                    <Label Text="Stock" FontSize="Medium" />
+                    <Entry Text="{Binding Product.Stock}" Placeholder="0" Keyboard="Numeric" />
+
+                    <Label Text="Categoría" FontSize="Medium" />
+                    <Picker ItemsSource="{Binding Categories}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            ItemDisplayBinding="{Binding Description}"
+                            Title="Selecciona una categoría" />
+
+                    <Label Text="Marca" FontSize="Medium" />
+                    <Picker ItemsSource="{Binding Brands}"
+                            SelectedItem="{Binding SelectedBrand}"
+                            ItemDisplayBinding="{Binding Name}"
+                            Title="Selecciona una marca" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="CenterAndExpand">
+                <Button Text="Cancelar" Command="{Binding CancelCommand}" WidthRequest="120" BackgroundColor="Gray" />
+                <Button Text="Guardar" Command="{Binding SaveProductCommand}" WidthRequest="120" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
