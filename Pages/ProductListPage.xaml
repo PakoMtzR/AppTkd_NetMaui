@@ -45,14 +45,9 @@
                         <Grid ColumnDefinitions="*,Auto,Auto">
                             <VerticalStackLayout Grid.Column="0">
                                 <Label Text="{Binding Description}" FontSize="Medium" />
-                                <HorizontalStackLayout>
-                                    <Label Text="Categoría: " FontAttributes="Bold" />
-                                    <Label Text="{Binding CategoryDescription}" />
-                                    <Label Text=" | Marca: " FontAttributes="Bold" />
-                                    <Label Text="{Binding BrandName}" />
-                                    <Label Text=" | Stock: " FontAttributes="Bold" />
-                                    <Label Text="{Binding Stock}" />
-                                </HorizontalStackLayout>
+                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}"/>
+                                <Label Text="{Binding BrandName, StringFormat='Marca: {0}'}"/>
+                                <Label Text="{Binding Stock, StringFormat='Stock: {0}'}"/>
                             </VerticalStackLayout>
                             <Button Grid.Column="1" VerticalOptions="Start" Text="Editar"  Margin="8,0" 
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListVM}}, Path=EditProductCommand}" 

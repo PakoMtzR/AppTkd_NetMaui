@@ -1,7 +1,6 @@
-namespace MauiApp1.Pages;
+using MauiApp1.Viewmodels;
 
-using Microsoft.Maui.Controls;
-using MauiApp1.Viewmodels; // Ensure this is correctly referenced
+namespace MauiApp1.Pages;
 
 public partial class ProductDetailPage : ContentPage
 {

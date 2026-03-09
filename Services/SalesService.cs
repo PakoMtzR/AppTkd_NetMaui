@@ -57,6 +57,16 @@ namespace MauiApp1.Services
             return sales.Select(s => MapToDTO(s)).ToList();
         }
 
+        public async Task<SaleDTO?> GetSaleById(int idSale)
+        {
+            var sale = await _context.Sales
+                .Include(s => s.SaleDetails)
+                    .ThenInclude(sd => sd.Product)
+                .FirstOrDefaultAsync(s => s.IdSale == idSale);
+
+            return MapToDTO(sale!);
+        }
+
         public async Task<bool> SaveSale(SaleDTO saleDto)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
@@ -105,11 +115,9 @@ namespace MauiApp1.Services
             }
         }
 
-        public async Task<string> GenerateSaleNumber()
+        public string GenerateSaleNumber()
         {
-            var lastSale = await _context.Sales.OrderByDescending(s => s.IdSale).FirstOrDefaultAsync();
-            int nextId = (lastSale?.IdSale ?? 0) + 1;
-            return $"VTA-{nextId:D6}";
+            return Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
         }
     }
 }

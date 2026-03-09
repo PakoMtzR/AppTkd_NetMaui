@@ -38,6 +38,7 @@ namespace MauiApp1
             builder.Services.AddSingleton<ProductSelectionVM>();
             builder.Services.AddSingleton<CartVM>();
             builder.Services.AddSingleton<SalesHistoryVM>();
+            builder.Services.AddTransient<SaleDetailVM>();
 
             // Registrar Paginas
             builder.Services.AddSingleton<StudentListPage>();
@@ -49,6 +50,7 @@ namespace MauiApp1
             builder.Services.AddSingleton<ProductSelectionPage>();
             builder.Services.AddSingleton<CartPage>();
             builder.Services.AddSingleton<SalesHistoryPage>();
+            builder.Services.AddTransient<SaleDetailPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

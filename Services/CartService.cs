@@ -6,21 +6,26 @@ namespace MauiApp1.Services
 {
     public class CartService
     {
+        // Lista de productos en el carrito, se enlaza directamente con la UI a través del ViewModel
         public ObservableCollection<SaleDetailDTO> CartItems { get; set; } = new ObservableCollection<SaleDetailDTO>();
 
+        // Calcula el total del carrito sumando el total de cada item
         public decimal TotalCart => CartItems.Sum(x => x.TotalPrice);
 
-        public void AddProduct(ProductDTO product, int quantity)
+        // TODO: Agregar validación para no exceder el stock disponible al añadir productos o incrementar cantidades
+        public void AddProduct(ProductDTO product)
         {
-            var existing = CartItems.FirstOrDefault(x => x.IdProduct == product.IdProduct);
-            if (existing != null)
+            // Verificar si el producto ya está en el carrito
+            var existingProduct = CartItems.FirstOrDefault(x => x.IdProduct == product.IdProduct);
+            if (existingProduct != null)
             {
-                existing.Quantity += quantity;
-                existing.TotalPrice = existing.Quantity * product.SalePrice;
-                
-                // Actualizar la referencia para disparar cambios en la UI si es necesario
-                var index = CartItems.IndexOf(existing);
-                CartItems[index] = existing;
+                // Solo sumar una unidad si no excede el stock total
+                int newQuantity = existingProduct.Quantity + 1;
+                if (newQuantity <= product.Stock)
+                {
+                    existingProduct.Quantity = newQuantity;
+                    existingProduct.TotalPrice = existingProduct.Quantity * product.SalePrice;
+                }
             }
             else
             {
@@ -29,9 +34,30 @@ namespace MauiApp1.Services
                     IdProduct = product.IdProduct,
                     ProductName = product.Description,
                     ProductPrice = product.SalePrice,
-                    Quantity = quantity,
-                    TotalPrice = quantity * product.SalePrice
+                    AvailableStock = product.Stock, // Guardamos el stock disponible
+                    Quantity = 1,
+                    TotalPrice = product.SalePrice
                 });
+            }
+        }
+
+        public bool IncrementItem(SaleDetailDTO item)
+        {
+            if (item.Quantity < item.AvailableStock)
+            {
+                item.Quantity++;
+                item.TotalPrice = item.Quantity * item.ProductPrice;
+                return true;
+            }
+            return false;
+        }
+
+        public void DecrementItem(SaleDetailDTO item)
+        {
+            if (item.Quantity > 1)
+            {
+                item.Quantity--;
+                item.TotalPrice = item.Quantity * item.ProductPrice;
             }
         }
 

@@ -12,9 +12,11 @@ namespace MauiApp1.Viewmodels
         private readonly CartService _cartService;
         private readonly SalesService _salesService;
 
+        // Lista de productos en el carrito, se enlaza directamente con el servicio para reflejar cambios en la UI
         [ObservableProperty]
         private ObservableCollection<SaleDetailDTO> items;
 
+        // Total del carrito, se actualiza automáticamente al cambiar los items
         [ObservableProperty]
         private decimal total;
 
@@ -25,6 +27,8 @@ namespace MauiApp1.Viewmodels
         {
             _cartService = cartService;
             _salesService = salesService;
+
+            // Enlazar la colección del servicio directamente a la propiedad Items para reflejar cambios en la UI
             Items = _cartService.CartItems;
             UpdateTotal();
 
@@ -37,10 +41,32 @@ namespace MauiApp1.Viewmodels
             Total = _cartService.TotalCart;
         }
 
+
         [RelayCommand]
         public void RemoveItem(SaleDetailDTO item)
         {
             _cartService.RemoveItem(item);
+        }
+
+        [RelayCommand]
+        public async Task IncreaseQuantity(SaleDetailDTO item)
+        {
+            var success = _cartService.IncrementItem(item);
+            if (success)
+            {
+                UpdateTotal();
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Límite Alcanzado", $"Solo hay {item.AvailableStock} unidades en stock.", "OK");
+            }
+        }
+
+        [RelayCommand]
+        public void DecreaseQuantity(SaleDetailDTO item)
+        {
+            _cartService.DecrementItem(item);
+            UpdateTotal();
         }
 
         [RelayCommand]
@@ -52,7 +78,7 @@ namespace MauiApp1.Viewmodels
                 return;
             }
 
-            var saleNumber = await _salesService.GenerateSaleNumber();
+            var saleNumber = _salesService.GenerateSaleNumber();
             var saleDto = new SaleDTO
             {
                 SaleNumber = saleNumber,

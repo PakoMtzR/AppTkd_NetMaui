@@ -7,13 +7,27 @@
              x:DataType="vm:ProductSelectionVM"
              Title="Seleccionar Productos">
 
-    <Grid RowDefinitions="Auto, *">
-        <!-- Botón de refrescar arriba -->
-        <Button Text="Actualizar Catálogo" 
-                Command="{Binding LoadProductsCommand}" 
-                Margin="10" />
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+        <!-- Buscador y Refrescar -->
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
+            <SearchBar Grid.Column="0"
+                       Placeholder="Buscar producto..."
+                       Text="{Binding SearchText}"
+                       Margin="0,0,10,0"/>
+            <Button Grid.Column="1" 
+                    Text="Recargar" 
+                    Command="{Binding LoadProductsCommand}" />
+        </Grid>
 
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Products}" Margin="10">
+        <!-- Filtro por Categoría -->
+        <Picker Grid.Row="1"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                ItemDisplayBinding="{Binding Description}"
+                Title="Filtrar por Categoría"
+                Margin="0,0,0,10" />
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Products}" Margin="0">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">
                     <Frame Margin="0,0,0,10" Padding="15">
@@ -22,7 +36,7 @@
                                 <Label Text="{Binding Description}" FontSize="18" FontAttributes="Bold" />
                                 <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" />
                                 <Label Text="{Binding SalePrice, StringFormat='Precio: {0:C}'}" TextColor="Green" />
-                                <Label Text="{Binding Stock, StringFormat='Stock: {0}'}" FontSize="12" />
+                                <Label Text="{Binding Stock, StringFormat='Existencias: {0}'}" FontSize="12" />
                             </VerticalStackLayout>
 
                             <Button Grid.Column="1" 

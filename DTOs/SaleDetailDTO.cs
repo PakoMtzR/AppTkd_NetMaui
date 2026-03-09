@@ -1,10 +1,16 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace MauiApp1.DTOs
 {
-    public class SaleDetailDTO
+    public partial class SaleDetailDTO : ObservableObject
     {
         public int IdSaleDetail { get; set; }
-        public int Quantity { get; set; }
-        public decimal TotalPrice { get; set; }
+
+        [ObservableProperty]
+        private int quantity;
+
+        [ObservableProperty]
+        private decimal totalPrice;
 
         // Llaves Foráneas
         public int IdSale { get; set; }
@@ -13,5 +19,6 @@ namespace MauiApp1.DTOs
         // Propiedades informativas para la UI
         public string? ProductName { get; set; }
         public decimal ProductPrice { get; set; }
+        public int AvailableStock { get; set; } // Stock máximo permitido para este producto
     }
 }

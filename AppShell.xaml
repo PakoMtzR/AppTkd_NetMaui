@@ -29,9 +29,9 @@
             ContentTemplate="{DataTemplate views:CategoryListPage}"
             Route="CategoryPage" />
     </FlyoutItem>
-    <FlyoutItem Title="Ventas">
+    <FlyoutItem Title="Tienda">
         <ShellContent
-            Title="Nueva Venta"
+            Title="Productos"
             ContentTemplate="{DataTemplate views:ProductSelectionPage}"
             Route="ProductSelectionPage" />
         <ShellContent
