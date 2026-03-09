@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.CartPage"
+             xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:DataType="vm:CartVM"
+             Title="Carrito de Venta">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="20">
+        <!-- Datos del cliente -->
+        <Entry Placeholder="Nombre del Cliente (Opcional)"
+               Text="{Binding ClientName}" />
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,20">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:SaleDetailDTO">
+                    <Frame Margin="0,0,0,10" Padding="10">
+                        <Grid ColumnDefinitions="*, Auto, Auto">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding ProductName}" FontAttributes="Bold" />
+                                <Label Text="{Binding Quantity, StringFormat='Cantidad: {0}'}" />
+                                <Label Text="{Binding TotalPrice, StringFormat='Subtotal: {0:C}'}" />
+                            </VerticalStackLayout>
+                            
+                            <Button Grid.Column="2" 
+                                    Text="X" 
+                                    BackgroundColor="Red" 
+                                    TextColor="White"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartVM}}, Path=RemoveItemCommand}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Finalizar Venta -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+            <Label Text="{Binding Total, StringFormat='Total a Pagar: {0:C}'}" 
+                   FontSize="22" FontAttributes="Bold" HorizontalOptions="End" />
+            <Button Text="Concretar Venta" 
+                    Command="{Binding FinalizeSaleCommand}"
+                    BackgroundColor="Green" 
+                    TextColor="White" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

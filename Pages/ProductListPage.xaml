@@ -6,8 +6,8 @@
              xmlns:dto="clr-namespace:MauiApp1.DTOs"
              Title="Productos">
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Grid ColumnDefinitions="*, Auto">
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
             <SearchBar Grid.Column="0"
                         Placeholder="Buscar producto..."
                         Text="{Binding SearchText}"
@@ -21,16 +21,21 @@
         </Grid>
 
         <!-- Category Filter Picker -->
-        <Picker ItemsSource="{Binding Categories}"
+        <Picker Grid.Row="1"
+                ItemsSource="{Binding Categories}"
                 SelectedItem="{Binding SelectedCategory}"
                 ItemDisplayBinding="{Binding Description}"
                 Title="Filtrar por Categoría"
                 Margin="0,0,0,10" />
 
-        <CollectionView ItemsSource="{Binding Products}"
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Products}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedProduct}">
             <!-- Cambiado a Single para permitir selección y binding -->
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">
                     <Border Padding="12" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
@@ -51,7 +56,7 @@
                             </VerticalStackLayout>
                             <Button Grid.Column="1" VerticalOptions="Start" Text="Editar"  Margin="8,0" 
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListVM}}, Path=EditProductCommand}" 
-                                    CommandParameter="{Binding .}"/>
+                                    CommandParameter="{Binding .}"/>        
                             <Button Grid.Column="2" VerticalOptions="Start" Text="Eliminar" BackgroundColor="Red" TextColor="White" 
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProductListVM}}, Path=DeleteProductCommand}" 
                                     CommandParameter="{Binding .}"/>
@@ -63,5 +68,5 @@
                 <Label Text="No hay productos para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
             </CollectionView.EmptyView>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

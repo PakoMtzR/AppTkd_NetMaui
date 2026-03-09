@@ -6,8 +6,8 @@
              xmlns:dto="clr-namespace:MauiApp1.DTOs"
              Title="Alumnos">
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Grid ColumnDefinitions="*, Auto">
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
             <SearchBar  Grid.Column="0"
                         Placeholder="Buscar..."
                         Text="{Binding SearchText}"
@@ -19,47 +19,46 @@
                     HorizontalOptions="Center" 
                     Padding="10"/>
         </Grid>
-        <Label Text="Lista de alumnos registrados."></Label>
-        <ScrollView>
-            <CollectionView ItemsSource="{Binding Students}"
-                            SelectionMode="None">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="dto:StudentDTO">
-                        <Border Padding="12" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5"/>
-                            </Border.StrokeShape>
-                            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto">
-                                <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}{0} {1} {2}">
-                                            <Binding Path="Name"/>
-                                            <Binding Path="PaternalSurname"/>
-                                            <Binding Path="MaternalSurname"/>
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Code, StringFormat='Codigo: {0}'}" />
-                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding BeltDescription, StringFormat='Grado: {0}'}" />
+        <Label Grid.Row="1" Margin="0,0,0,10" Text="Lista de alumnos registrados."/>
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Students}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:StudentDTO">
+                    <Border Padding="12" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Name"/>
+                                        <Binding Path="PaternalSurname"/>
+                                        <Binding Path="MaternalSurname"/>
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Code, StringFormat='Codigo: {0}'}" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding BeltDescription, StringFormat='Grado: {0}'}" />
 
-                                <Button Grid.Row="0" Grid.Column="1" Text="Editar"
+                            <Button Grid.Row="0" Grid.Column="1" Text="Editar"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentListVM}}, Path=EditStudentCommand}"
                                 CommandParameter="{Binding .}"
                                 Margin="0,0,5,0" />
-                                <Button Grid.Row="0" Grid.Column="2" Text="Eliminar" BackgroundColor="Red" TextColor="White"
+                            <Button Grid.Row="0" Grid.Column="2" Text="Eliminar" BackgroundColor="Red" TextColor="White"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentListVM}}, Path=DeleteStudentCommand}"
                                 CommandParameter="{Binding .}" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <Label Text="No hay alumnos registrados." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </ScrollView>
-    </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No hay alumnos registrados." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </ContentPage>

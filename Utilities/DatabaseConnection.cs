@@ -8,21 +8,12 @@ namespace MauiApp1.Utilities
 {
     public class DatabaseConnection
     {
-        // Método para obtener la ruta de la base de datos
+        // Método para obtener la ruta de la base de datos de manera multiplataforma
         public static string GetDatabasePath(string nameDB)
         {
-            string dbPath = string.Empty;
-#if ANDROID
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            dbPath = System.IO.Path.Combine(folderPath, nameDB);
-#elif IOS
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            dbPath = System.IO.Path.Combine(folderPath, nameDB);
-#elif WINDOWS
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            dbPath = System.IO.Path.Combine(folderPath, nameDB);
-#endif
-            return dbPath;
+            // Usamos FileSystem.AppDataDirectory de MAUI, que devuelve la ruta 
+            // correcta para datos internos de la aplicación en cada plataforma.
+            return System.IO.Path.Combine(FileSystem.AppDataDirectory, nameDB);
         }
     }
 }

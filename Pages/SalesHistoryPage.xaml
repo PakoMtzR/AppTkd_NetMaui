@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.SalesHistoryPage"
+             xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:DataType="vm:SalesHistoryVM"
+             Title="Historial de Ventas">
+
+    <Grid RowDefinitions="Auto, *">
+        <Button Text="Actualizar Historial" 
+                Command="{Binding LoadHistoryCommand}" 
+                Margin="10" />
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Sales}" Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:SaleDTO">
+                    <Frame Margin="0,0,0,10" Padding="15">
+                        <VerticalStackLayout>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="{Binding SaleNumber}" FontAttributes="Bold" FontSize="16" />
+                                <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='{0:C}'}" TextColor="Green" FontAttributes="Bold" />
+                            </Grid>
+                            <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
+                            <Label Text="{Binding ClientName, StringFormat='Cliente: {0}'}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

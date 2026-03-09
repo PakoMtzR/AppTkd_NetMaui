@@ -29,4 +29,18 @@
             ContentTemplate="{DataTemplate views:CategoryListPage}"
             Route="CategoryPage" />
     </FlyoutItem>
+    <FlyoutItem Title="Ventas">
+        <ShellContent
+            Title="Nueva Venta"
+            ContentTemplate="{DataTemplate views:ProductSelectionPage}"
+            Route="ProductSelectionPage" />
+        <ShellContent
+            Title="Carrito"
+            ContentTemplate="{DataTemplate views:CartPage}"
+            Route="CartPage" />
+        <ShellContent
+            Title="Historial"
+            ContentTemplate="{DataTemplate views:SalesHistoryPage}"
+            Route="SalesHistoryPage" />
+    </FlyoutItem>
 </Shell>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.ProductSelectionPage"
+             xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:DataType="vm:ProductSelectionVM"
+             Title="Seleccionar Productos">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Botón de refrescar arriba -->
+        <Button Text="Actualizar Catálogo" 
+                Command="{Binding LoadProductsCommand}" 
+                Margin="10" />
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Products}" Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:ProductDTO">
+                    <Frame Margin="0,0,0,10" Padding="15">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Description}" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" />
+                                <Label Text="{Binding SalePrice, StringFormat='Precio: {0:C}'}" TextColor="Green" />
+                                <Label Text="{Binding Stock, StringFormat='Stock: {0}'}" FontSize="12" />
+                            </VerticalStackLayout>
+
+                            <Button Grid.Column="1" 
+                                    Text="Añadir" 
+                                    VerticalOptions="Center"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductSelectionVM}}, Path=AddToCartCommand}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

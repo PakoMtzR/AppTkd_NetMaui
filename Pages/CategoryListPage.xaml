@@ -6,8 +6,8 @@
              x:Class="MauiApp1.Pages.CategoryListPage"
              Title="Categorías">
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Grid ColumnDefinitions="*, Auto">
+    <Grid RowDefinitions="Auto, *" Padding="10">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
             <SearchBar  Grid.Column="0"
                         Placeholder="Buscar categoría..."
                         Text="{Binding SearchText}"
@@ -20,27 +20,29 @@
                     Padding="10"/>
         </Grid>
 
-        <ScrollView>
-            <CollectionView ItemsSource="{Binding Categories}"
-                            SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="10" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Grid Padding="5" ColumnDefinitions="*,Auto,Auto">
-                                <Label Grid.Column="0" Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" />
-                                <Button Grid.Column="1" Text="Editar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" Margin="10,0" />
-                                <Button Grid.Column="2" Text="Eliminar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <Label Text="No hay categorías para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </ScrollView>
-    </VerticalStackLayout>
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Categories}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10" BackgroundColor="{StaticResource Gray950}" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <Grid Padding="5" ColumnDefinitions="*,Auto,Auto">
+                            <Label Grid.Column="0" Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" />
+                            <Button Grid.Column="1" Text="Editar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" Margin="10,0" />
+                            <Button Grid.Column="2" Text="Eliminar" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListVM}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No hay categorías para mostrar." HorizontalOptions="Center" VerticalOptions="Center" Margin="0,50,0,0" FontSize="Medium" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </ContentPage>

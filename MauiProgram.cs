@@ -25,6 +25,8 @@ namespace MauiApp1
             builder.Services.AddSingleton<DatabaseContext>();
             builder.Services.AddSingleton<StudentService>();
             builder.Services.AddSingleton<InventoryService>();
+            builder.Services.AddSingleton<SalesService>();
+            builder.Services.AddSingleton<CartService>();
 
             // Registrar Viewmodels
             builder.Services.AddSingleton<StudentListVM>();
@@ -33,6 +35,9 @@ namespace MauiApp1
             builder.Services.AddTransient<CategoryDetailVM>();
             builder.Services.AddSingleton<ProductListVM>(); 
             builder.Services.AddTransient<ProductDetailVM>();
+            builder.Services.AddSingleton<ProductSelectionVM>();
+            builder.Services.AddSingleton<CartVM>();
+            builder.Services.AddSingleton<SalesHistoryVM>();
 
             // Registrar Paginas
             builder.Services.AddSingleton<StudentListPage>();
@@ -41,6 +46,9 @@ namespace MauiApp1
             builder.Services.AddTransient<CategoryDetailPage>();
             builder.Services.AddSingleton<ProductListPage>(); 
             builder.Services.AddTransient<ProductDetailPage>(); 
+            builder.Services.AddSingleton<ProductSelectionPage>();
+            builder.Services.AddSingleton<CartPage>();
+            builder.Services.AddSingleton<SalesHistoryPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
