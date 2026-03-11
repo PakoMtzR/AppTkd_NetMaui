@@ -10,7 +10,8 @@ namespace MauiApp1.Viewmodels
     public partial class SalesHistoryVM : ObservableObject, IQueryAttributable
     {
         private readonly SalesService _salesService;
-
+        
+        // Lista de las ventas realizadas
         [ObservableProperty]
         private ObservableCollection<SaleDTO> sales = new();
 
@@ -41,6 +42,8 @@ namespace MauiApp1.Viewmodels
         private async Task GoToDetails(SaleDTO sale)
         {
             if (sale == null) return;
+            
+            // Navegación a la página de detalles pasando el ID de la venta
             await Shell.Current.GoToAsync($"{nameof(SaleDetailPage)}?IdSale={sale.IdSale}");
         }
     }

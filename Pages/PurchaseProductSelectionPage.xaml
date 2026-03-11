@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.Pages.ProductSelectionPage"
+             x:Class="MauiApp1.Pages.PurchaseProductSelectionPage"
              xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
              xmlns:dto="clr-namespace:MauiApp1.DTOs"
-             x:DataType="vm:ProductSelectionVM"
-             Title="Seleccionar Productos">
+             x:DataType="vm:PurchaseProductSelectionVM"
+             Title="Selección de Pedido">
 
-    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="10">
         <!-- Buscador y Refrescar -->
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,10">
             <SearchBar Grid.Column="0"
@@ -27,7 +27,8 @@
                 Title="Filtrar por Categoría"
                 Margin="0,0,0,10" />
 
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Products}" Margin="0">
+        <!-- Lista de Productos -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Products}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">
                     <Border Margin="0,0,0,10" Padding="15" StrokeThickness="0">
@@ -36,16 +37,17 @@
                         </Border.StrokeShape>
                         <Grid ColumnDefinitions="*, Auto">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Description}" FontSize="18" FontAttributes="Bold" />
-                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" />
-                                <Label Text="{Binding Stock, StringFormat='Existencias: {0}'}" FontSize="12" />
-                                <Label Text="{Binding SalePrice, StringFormat='Precio: {0:C}'}" TextColor="Green" FontAttributes="Bold"/>
+                                <Label Text="{Binding Description}" FontAttributes="Bold" FontSize="18" />
+                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}"/>
+                                <Label Text="{Binding Stock, StringFormat='Existencias Actuales: {0}'}"/>
+                                <Label Text="{Binding PurchasePrice, StringFormat='Costo Unitario: {0:C}'}" 
+                                       TextColor="Green" FontAttributes="Bold" />
                             </VerticalStackLayout>
-
+                            
                             <Button Grid.Column="1" 
-                                    Text="Añadir" 
+                                    Text="Agregar" 
                                     VerticalOptions="Center"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductSelectionVM}}, Path=AddToCartCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PurchaseProductSelectionVM}}, Path=AddToCartCommand}"
                                     CommandParameter="{Binding .}"/>
                         </Grid>
                     </Border>

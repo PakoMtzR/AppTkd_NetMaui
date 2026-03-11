@@ -12,7 +12,6 @@ namespace MauiApp1.Services
         // Calcula el total del carrito sumando el total de cada item
         public decimal TotalCart => CartItems.Sum(x => x.TotalPrice);
 
-        // TODO: Agregar validación para no exceder el stock disponible al añadir productos o incrementar cantidades
         public void AddProduct(ProductDTO product)
         {
             // Verificar si el producto ya está en el carrito
@@ -24,7 +23,6 @@ namespace MauiApp1.Services
                 if (newQuantity <= product.Stock)
                 {
                     existingProduct.Quantity = newQuantity;
-                    existingProduct.TotalPrice = existingProduct.Quantity * product.SalePrice;
                 }
             }
             else
@@ -33,10 +31,9 @@ namespace MauiApp1.Services
                 {
                     IdProduct = product.IdProduct,
                     ProductName = product.Description,
-                    ProductPrice = product.SalePrice,
-                    AvailableStock = product.Stock, // Guardamos el stock disponible
-                    Quantity = 1,
-                    TotalPrice = product.SalePrice
+                    UnitPriceAtSale = product.SalePrice,
+                    AvailableStock = product.Stock,
+                    Quantity = 1
                 });
             }
         }
@@ -46,7 +43,6 @@ namespace MauiApp1.Services
             if (item.Quantity < item.AvailableStock)
             {
                 item.Quantity++;
-                item.TotalPrice = item.Quantity * item.ProductPrice;
                 return true;
             }
             return false;
@@ -54,11 +50,7 @@ namespace MauiApp1.Services
 
         public void DecrementItem(SaleDetailDTO item)
         {
-            if (item.Quantity > 1)
-            {
-                item.Quantity--;
-                item.TotalPrice = item.Quantity * item.ProductPrice;
-            }
+            if (item.Quantity > 1) item.Quantity--;
         }
 
         public void RemoveItem(SaleDetailDTO item)

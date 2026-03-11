@@ -12,10 +12,14 @@
         <Entry Placeholder="Nombre del Cliente (Opcional)"
                Text="{Binding ClientName}" />
 
+        <!-- Lista de productos en el carrito -->
         <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,20">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:SaleDetailDTO">
-                    <Frame Margin="0,0,0,10" Padding="10">
+                    <Border Margin="0,0,0,10" Padding="10" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
                         <Grid ColumnDefinitions="*, Auto, Auto">
                             <VerticalStackLayout>
                                 <Label Text="{Binding ProductName}" FontAttributes="Bold" />
@@ -47,7 +51,7 @@
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartVM}}, Path=RemoveItemCommand}"
                                     CommandParameter="{Binding .}"/>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

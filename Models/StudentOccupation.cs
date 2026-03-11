@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Ocupacion': Almacena la ocupacion de los alumnos.
     public class StudentOccupation
     {
         [Key]

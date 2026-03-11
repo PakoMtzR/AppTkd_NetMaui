@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Estado Civil': Almacena los estados civiles posibles de los alumnos
     public class StudentMaritalStatus
     {
         [Key]

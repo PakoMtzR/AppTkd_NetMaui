@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +10,9 @@ namespace MauiApp1.Models
         public int IdPurchaseOrderDetail { get; set; }
 
         public int Quantity { get; set; }
-        public decimal TotalCost { get; set; }
+        
+        // Precio histórico pactado con el proveedor al momento de la orden
+        public decimal UnitPriceAtPurchase { get; set; }
 
         // Llaves Foraneas
         public int IdPurchaseOrder { get; set; }

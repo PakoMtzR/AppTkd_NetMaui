@@ -43,4 +43,18 @@
             ContentTemplate="{DataTemplate views:SalesHistoryPage}"
             Route="SalesHistoryPage" />
     </FlyoutItem>
+    <FlyoutItem Title="Pedido">
+        <ShellContent
+            Title="Nuevo Pedido"
+            ContentTemplate="{DataTemplate views:PurchaseProductSelectionPage}"
+            Route="PurchaseProductSelectionPage" />
+        <ShellContent
+            Title="Carrito"
+            ContentTemplate="{DataTemplate views:PurchaseCartPage}"
+            Route="PurchaseCartPage" />
+        <ShellContent
+            Title="Historial"
+            ContentTemplate="{DataTemplate views:PurchaseHistoryPage}"
+            Route="PurchaseHistoryPage" />
+    </FlyoutItem>
 </Shell>

@@ -1,16 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Detalle Venta': Para tener informacion adicional de los productos vendidos por cada venta.
     public class SaleDetail
     {
         [Key]
         public int IdSaleDetail { get; set; }
 
         public int Quantity { get; set; }
-        public decimal TotalPrice { get; set; }
+        
+        // Precio histórico en el momento de la venta
+        public decimal UnitPriceAtSale { get; set; }    
 
         // Llaves Foraneas
         public int IdSale {  get; set; }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Orden de Compra': Esta clase tiene como objetivo tener registro de las compras realizadas a mi proveedor.
     public class PurchaseOrder
     {
         [Key]

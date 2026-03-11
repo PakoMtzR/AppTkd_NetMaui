@@ -7,10 +7,15 @@ namespace MauiApp1.DTOs
         public int IdSaleDetail { get; set; }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(TotalPrice))]
         private int quantity;
 
         [ObservableProperty]
-        private decimal totalPrice;
+        [NotifyPropertyChangedFor(nameof(TotalPrice))]
+        private decimal unitPriceAtSale;
+
+        // Propiedad calculada automáticamente
+        public decimal TotalPrice => Quantity * UnitPriceAtSale;
 
         // Llaves Foráneas
         public int IdSale { get; set; }
@@ -18,7 +23,10 @@ namespace MauiApp1.DTOs
 
         // Propiedades informativas para la UI
         public string? ProductName { get; set; }
-        public decimal ProductPrice { get; set; }
+
+        // Mantenemos ProductPrice por compatibilidad con los bindings actuales de la UI
+        public decimal ProductPrice => UnitPriceAtSale;
+
         public int AvailableStock { get; set; } // Stock máximo permitido para este producto
     }
 }

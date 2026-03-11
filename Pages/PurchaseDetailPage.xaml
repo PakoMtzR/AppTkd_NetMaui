@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.PurchaseDetailPage"
+             xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:DataType="vm:PurchaseDetailVM"
+             Title="Detalle del Pedido">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Resumen de Orden -->
+            <Frame BackgroundColor="{AppThemeBinding Light=#E1F5FE, Dark=#01579B}" Padding="15">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="{Binding Order.PurchaseOrderNumber, StringFormat='Folio: {0}'}" 
+                           FontSize="20" FontAttributes="Bold" />
+                    <Label Text="{Binding Order.RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" 
+                           FontSize="14" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="Artículos del Pedido" FontSize="18" FontAttributes="Bold" />
+
+            <!-- Lista -->
+            <CollectionView ItemsSource="{Binding Order.PurchaseOrderDetails}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:PurchaseOrderDetailDTO">
+                        <Frame Margin="0,0,0,10" Padding="10">
+                            <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto, Auto">
+                                <Label Text="{Binding ProductName}" FontAttributes="Bold" Grid.ColumnSpan="3" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Quantity, StringFormat='Cant: {0}'}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding UnitPriceAtPurchase, StringFormat='Costo Unit: {0:C}'}" Margin="10,0" />
+                                <Label Grid.Row="1" Grid.Column="2" Text="{Binding TotalCost, StringFormat='Subtotal: {0:C}'}" FontAttributes="Bold" TextColor="Blue" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Desglose de Costos -->
+            <Frame BackgroundColor="DarkBlue" Padding="15">
+                <VerticalStackLayout Spacing="5">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Suma Productos:" TextColor="White" />
+                        <Label Grid.Column="1" Text="{Binding Order.OrderCost, StringFormat='{0:C}'}" TextColor="White" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Gastos de Envío:" TextColor="White" />
+                        <Label Grid.Column="1" Text="{Binding Order.ShipmentCost, StringFormat='{0:C}'}" TextColor="White" />
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="White" Margin="0,5" />
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="COSTO TOTAL DE COMPRA:" TextColor="White" FontAttributes="Bold" FontSize="16" />
+                        <Label Grid.Column="1" Text="{Binding Order.GrandTotal, StringFormat='{0:C}'}" TextColor="White" FontAttributes="Bold" FontSize="18" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

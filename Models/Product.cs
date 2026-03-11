@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase Producto: Informacion sobre los productos de la tienda.
     public class Product
     {
         [Key]
@@ -13,8 +14,7 @@ namespace MauiApp1.Models
         public decimal SalePrice { get; set; }  
         public decimal PurchasePrice { get; set; }
         public int Stock { get; set; }
-
-
+        
         // Llaves Foraneas  
         public int IdCategory { get; set; }
         public int IdBrand { get; set; }

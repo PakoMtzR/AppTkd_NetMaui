@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Venta': Esta clase tiene como objetivo registrar las ventas de mi tienda.
     public class Sale
     {
         [Key]

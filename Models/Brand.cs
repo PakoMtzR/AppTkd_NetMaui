@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase 'Brand': Marca de los productos.
     public class Brand
     {
         [Key]

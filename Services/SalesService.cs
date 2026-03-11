@@ -37,11 +37,10 @@ namespace MauiApp1.Services
             {
                 IdSaleDetail = detail.IdSaleDetail,
                 Quantity = detail.Quantity,
-                TotalPrice = detail.TotalPrice,
                 IdSale = detail.IdSale,
                 IdProduct = detail.IdProduct,
                 ProductName = detail.Product?.Description,
-                ProductPrice = detail.Product?.SalePrice ?? 0
+                UnitPriceAtSale = detail.UnitPriceAtSale // El DTO calculará TotalPrice
             };
         }
         // --- End Mappers ---
@@ -99,7 +98,7 @@ namespace MauiApp1.Services
                         IdSale = sale.IdSale,
                         IdProduct = detailDto.IdProduct,
                         Quantity = detailDto.Quantity,
-                        TotalPrice = detailDto.TotalPrice
+                        UnitPriceAtSale = product.SalePrice // No guardamos TotalPrice, es calculado
                     };
                     _context.SaleDetails.Add(detail);
                 }
@@ -117,7 +116,7 @@ namespace MauiApp1.Services
 
         public string GenerateSaleNumber()
         {
-            return Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
+            return "S-" + Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
         }
     }
 }

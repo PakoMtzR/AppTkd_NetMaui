@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase para los Grados, varios alumnos pueden tener el mismo grado.
     public class StudentBelt
     {
         [Key]

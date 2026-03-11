@@ -1,5 +1,6 @@
-namespace MauiApp1.Pages;
 using MauiApp1.Viewmodels;
+
+namespace MauiApp1.Pages;
 
 public partial class SalesHistoryPage : ContentPage
 {

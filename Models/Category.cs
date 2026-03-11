@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MauiApp1.Models
 {
+    // Clase Categoria: Esta clase tiene como objetivo filtrar los productos.
     public class Category
     {
         [Key]

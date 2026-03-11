@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.PurchaseHistoryPage"
+             xmlns:vm="clr-namespace:MauiApp1.Viewmodels"
+             xmlns:dto="clr-namespace:MauiApp1.DTOs"
+             x:DataType="vm:PurchaseHistoryVM"
+             Title="Historial de Compras">
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadHistoryCommand}">
+        <Grid RowDefinitions="Auto, *">
+            <Button Text="Refrescar Lista" 
+                    Command="{Binding LoadHistoryCommand}" 
+                    Margin="10" 
+                    BackgroundColor="LightGray"
+                    TextColor="Black"/>
+
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Orders}" Margin="10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:PurchaseOrderDTO">
+                        <Frame Margin="0,0,0,10" Padding="15">
+                            <VerticalStackLayout>
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="{Binding PurchaseOrderNumber}" FontAttributes="Bold" FontSize="16" />
+                                    <Label Grid.Column="1" Text="{Binding GrandTotal, StringFormat='Total: {0:C}'}" TextColor="Blue" FontAttributes="Bold" />
+                                </Grid>
+                                <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
+                                <Label Text="{Binding ShipmentCost, StringFormat='Envío: {0:C}'}" FontSize="12" />
+                                
+                                <Button Text="Ver Detalle del Pedido" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PurchaseHistoryVM}}, Path=GoToDetailsCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Margin="0,10,0,0"
+                                        HorizontalOptions="End" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </RefreshView>
+</ContentPage>

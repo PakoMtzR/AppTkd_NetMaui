@@ -3,13 +3,15 @@ using CommunityToolkit.Mvvm.Input;
 using MauiApp1.DTOs;
 using MauiApp1.Services;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MauiApp1.Viewmodels
 {
-    public partial class ProductSelectionVM : ObservableObject
+    public partial class PurchaseProductSelectionVM : ObservableObject
     {
         private readonly InventoryService _inventoryService;
-        private readonly CartService _cartService;
+        private readonly PurchaseCartService _cartService;
         
         // Lista completa de productos cargados desde el servicio, sin filtrar
         private List<ProductDTO> _allProducts = new();  
@@ -17,15 +19,15 @@ namespace MauiApp1.Viewmodels
         // Lista de productos filtrados para mostrar en la UI
         [ObservableProperty]
         private ObservableCollection<ProductDTO> products = new();
-
+        
         // Para indicar que se están cargando los productos
         [ObservableProperty]
         private bool isRefreshing;
-
+        
         // Lista de categorías para el filtro
         [ObservableProperty]
         private ObservableCollection<CategoryDTO> categories = new();
-
+        
         // Categoría seleccionada para filtrar productos
         [ObservableProperty]
         private CategoryDTO selectedCategory;
@@ -34,12 +36,12 @@ namespace MauiApp1.Viewmodels
         [ObservableProperty]
         private string searchText;
 
-        public ProductSelectionVM(InventoryService inventoryService, CartService cartService)
+        public PurchaseProductSelectionVM(InventoryService inventoryService, PurchaseCartService cartService)
         {
-            _inventoryService = inventoryService;   // Inyectamos el servicio de inventario para cargar productos y categorías
-            _cartService = cartService;             // Inyectamos el servicio de carrito para añadir productos al carrito
+            _inventoryService = inventoryService;
+            _cartService = cartService;
         }
-
+        
         // Estos métodos se ejecutan cada vez que cambian el texto de búsqueda o la categoría seleccionada, para actualizar la lista de productos mostrados
         partial void OnSearchTextChanged(string value) => PerformSearch();
         partial void OnSelectedCategoryChanged(CategoryDTO value) => PerformSearch();
@@ -74,17 +76,30 @@ namespace MauiApp1.Viewmodels
             IsRefreshing = false;
         }
 
-        [RelayCommand]
-        public void AddToCart(ProductDTO product)
-        {
-            if (product.Stock <= 0)
-            {
-                Shell.Current.DisplayAlert("Sin Stock", "Este producto no tiene existencias disponibles.", "OK");
-                return;
-            }
+        // [RelayCommand]
+        // public async Task FilterProducts()
+        // {
+        //     var list = await _inventoryService.GetAllProducts();
+        //
+        //     var filtered = list.Where(p => 
+        //         (SelectedCategory == null || SelectedCategory.IdCategory == 0 || p.IdCategory == SelectedCategory.IdCategory) &&
+        //         (string.IsNullOrEmpty(SearchText) || p.Description.ToLower().Contains(SearchText.ToLower()))
+        //     ).ToList();
+        //
+        //     Products = new ObservableCollection<ProductDTO>(filtered);
+        // }
 
+        [RelayCommand]
+        public async Task AddToCart(ProductDTO product)
+        {
             _cartService.AddProduct(product);
-            Shell.Current.DisplayAlert("Añadido", $"{product.Description} se añadió al carrito.", "OK");
+            await Shell.Current.DisplayAlert("Agregado", $"{product.Description} se añadió a la orden de compra.", "OK");
         }
+
+        // [RelayCommand]
+        // public async Task GoToCart()
+        // {
+        //     await Shell.Current.GoToAsync("PurchaseCartPage");
+        // }
     }
 }
