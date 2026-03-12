@@ -70,6 +70,12 @@ namespace MauiApp1.Viewmodels
         }
 
         [RelayCommand]
+        public void CleanCart()
+        {
+            _cartService.ClearCart();
+        }
+
+        [RelayCommand]
         public async Task FinalizeSale()
         {
             if (Items.Count == 0)

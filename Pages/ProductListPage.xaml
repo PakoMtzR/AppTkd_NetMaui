@@ -34,7 +34,7 @@
                         SelectedItem="{Binding SelectedProduct}">
             <!-- Cambiado a Single para permitir selección y binding -->
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
+                <LinearItemsLayout ItemSpacing="3" Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">

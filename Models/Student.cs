@@ -30,8 +30,8 @@ namespace MauiApp1.Models
         public int IdStudentBelt { get; set; }
 
         // Propiedades de navegación
-        public StudentOccupation StudentOccupation { get; set; }
-        public StudentMaritalStatus StudentMaritalStatus { get; set; }
-        public StudentBelt StudentBelt { get; set; }
+        public StudentOccupation? StudentOccupation { get; set; }
+        public StudentMaritalStatus? StudentMaritalStatus { get; set; }
+        public StudentBelt? StudentBelt { get; set; }
     }
 }

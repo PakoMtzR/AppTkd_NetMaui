@@ -63,7 +63,9 @@
             <Button Text="Concretar Venta" 
                     Command="{Binding FinalizeSaleCommand}"
                     BackgroundColor="Green" 
-                    TextColor="White" />
+                    TextColor="White" />    
+            <Button Text="Limpiar Carrito"
+                    Command="{Binding CleanCartCommand}"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
