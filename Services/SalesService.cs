@@ -79,9 +79,6 @@ namespace MauiApp1.Services
                     TotalPrice = saleDto.TotalPrice
                 };
 
-                _context.Sales.Add(sale);
-                await _context.SaveChangesAsync();
-
                 foreach (var detailDto in saleDto.SaleDetails)
                 {
                     var product = await _context.Products.FindAsync(detailDto.IdProduct);
@@ -95,14 +92,14 @@ namespace MauiApp1.Services
 
                     var detail = new SaleDetail
                     {
-                        IdSale = sale.IdSale,
                         IdProduct = detailDto.IdProduct,
                         Quantity = detailDto.Quantity,
-                        UnitPriceAtSale = product.SalePrice // No guardamos TotalPrice, es calculado
+                        UnitPriceAtSale = detailDto.UnitPriceAtSale
                     };
-                    _context.SaleDetails.Add(detail);
+                    sale.SaleDetails.Add(detail);
                 }
 
+                _context.Sales.Add(sale);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
                 return true;

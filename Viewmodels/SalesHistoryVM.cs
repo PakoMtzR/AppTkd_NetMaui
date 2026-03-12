@@ -26,10 +26,22 @@ namespace MauiApp1.Viewmodels
         [RelayCommand]
         public async Task LoadHistory()
         {
+            if (IsRefreshing) return;
+
             IsRefreshing = true;
-            var list = await _salesService.GetSalesHistory();
-            Sales = new ObservableCollection<SaleDTO>(list);
-            IsRefreshing = false;
+            try
+            {
+                var list = await _salesService.GetSalesHistory();
+                Sales = new ObservableCollection<SaleDTO>(list);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", "No se pudo cargar el historial de ventas: " + ex.Message, "OK");
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
         }
         
         public async void ApplyQueryAttributes(IDictionary<string, object> query)

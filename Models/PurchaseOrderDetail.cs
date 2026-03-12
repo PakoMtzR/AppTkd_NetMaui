@@ -19,7 +19,7 @@ namespace MauiApp1.Models
         public int IdProduct { get; set; }
 
         // Propiedades de navegación
-        public PurchaseOrder PurchaseOrder { get; set; }
-        public Product Product { get; set; }
+        public PurchaseOrder? PurchaseOrder { get; set; }
+        public Product? Product { get; set; }
     }
 }

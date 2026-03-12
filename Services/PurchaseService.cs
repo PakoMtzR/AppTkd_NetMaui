@@ -82,9 +82,6 @@ namespace MauiApp1.Services
                     ShipmentCost = orderDto.ShipmentCost
                 };
 
-                _context.PurchaseOrders.Add(order);
-                await _context.SaveChangesAsync();
-
                 foreach (var detailDto in orderDto.PurchaseOrderDetails)
                 {
                     var product = await _context.Products.FindAsync(detailDto.IdProduct);
@@ -96,14 +93,14 @@ namespace MauiApp1.Services
 
                     var detail = new PurchaseOrderDetail
                     {
-                        IdPurchaseOrder = order.IdPurchaseOrder,
                         IdProduct = detailDto.IdProduct,
                         Quantity = detailDto.Quantity,
                         UnitPriceAtPurchase = detailDto.UnitPriceAtPurchase
                     };
-                    _context.PurchaseOrderDetails.Add(detail);
+                    order.PurchaseOrderDetails.Add(detail);
                 }
 
+                _context.PurchaseOrders.Add(order);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
                 return true;

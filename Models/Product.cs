@@ -20,8 +20,8 @@ namespace MauiApp1.Models
         public int IdBrand { get; set; }
 
         // Propiedades de navegación
-        public Category Category { get; set; }
-        public Brand Brand { get; set; }
+        public Category? Category { get; set; }
+        public Brand? Brand { get; set; }
 
         // Propiedad de navegación para la relación con 'SaleDetail'
         public ICollection<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();

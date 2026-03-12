@@ -20,7 +20,7 @@ namespace MauiApp1.Models
         public int IdProduct { get; set; }
 
         // Propiedades de navegación
-        public Sale Sale { get; set; }
-        public Product Product { get; set; }
+        public Sale? Sale { get; set; }
+        public Product? Product { get; set; }
     }
 }
