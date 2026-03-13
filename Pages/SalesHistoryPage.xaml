@@ -15,22 +15,31 @@
         <CollectionView Grid.Row="1" ItemsSource="{Binding Sales}" Margin="10">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:SaleDTO">
-                    <Frame Margin="0,0,0,10" Padding="15">
-                        <VerticalStackLayout>
+                    <Border Margin="0,0,0,10" Padding="15" Background="{StaticResource Gray950}" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="3">
                             <Grid ColumnDefinitions="*, Auto">
-                                <Label Text="{Binding SaleNumber}" FontAttributes="Bold" FontSize="16" />
-                                <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='{0:C}'}" TextColor="Green" FontAttributes="Bold" />
+                                <Label Text="No. de venta:" FontAttributes="Bold" FontSize="16"/>
+                                <Label Grid.Column="1" Text="{Binding SaleNumber}" FontAttributes="Bold" FontSize="16" />
                             </Grid>
-                            <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
-                            <Label Text="{Binding ClientName, StringFormat='Cliente: {0}'}" FontSize="12" />
-                            
-                            <Button Text="Ver Detalle" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SalesHistoryVM}}, Path=GoToDetailsCommand}"
-                                    CommandParameter="{Binding .}"
-                                    Margin="0,10,0,0"
-                                    HorizontalOptions="End" />
+                            <Border/>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
+                                    <Label Text="{Binding ClientName, StringFormat='Cliente: {0}'}" FontSize="12" />
+                                    <Label Text="{Binding TotalPrice, StringFormat='Total: {0:C}'}" TextColor="Green" FontAttributes="Bold" FontSize="16"/>
+                                </VerticalStackLayout>
+                                <Button Grid.Column="1" VerticalOptions="Start"
+                                        Text="Ver Detalles" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SalesHistoryVM}}, Path=GoToDetailsCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Margin="0,10,0,0"
+                                        HorizontalOptions="End" />
+                            </Grid>
                         </VerticalStackLayout>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

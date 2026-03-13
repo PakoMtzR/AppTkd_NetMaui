@@ -31,17 +31,17 @@
         <CollectionView Grid.Row="2" ItemsSource="{Binding Products}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">
-                    <Border Margin="0,0,0,10" Padding="15" StrokeThickness="0">
+                    <Border Margin="0,0,0,10" Padding="15" StrokeThickness="0" Background="{StaticResource Gray950}">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="5"/>
                         </Border.StrokeShape>
                         <Grid ColumnDefinitions="*, Auto">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Description}" FontAttributes="Bold" FontSize="18" />
-                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}"/>
-                                <Label Text="{Binding Stock, StringFormat='Existencias Actuales: {0}'}"/>
+                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" FontSize="12"/>
+                                <Label Text="{Binding Stock, StringFormat='Existencias Actuales: {0}'}" FontSize="12"/>
                                 <Label Text="{Binding PurchasePrice, StringFormat='Costo Unitario: {0:C}'}" 
-                                       TextColor="Green" FontAttributes="Bold" />
+                                       TextColor="Green" FontAttributes="Bold"/>
                             </VerticalStackLayout>
                             
                             <Button Grid.Column="1" 

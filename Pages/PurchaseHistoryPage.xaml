@@ -9,7 +9,7 @@
 
     <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadHistoryCommand}">
         <Grid RowDefinitions="Auto, *">
-            <Button Text="Refrescar Lista" 
+            <Button Text="Actualizar Historial" 
                     Command="{Binding LoadHistoryCommand}" 
                     Margin="10" 
                     BackgroundColor="LightGray"
@@ -18,22 +18,32 @@
             <CollectionView Grid.Row="1" ItemsSource="{Binding Orders}" Margin="10">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="dto:PurchaseOrderDTO">
-                        <Frame Margin="0,0,0,10" Padding="15">
-                            <VerticalStackLayout>
+                        <Border Margin="0,0,0,10" Padding="15" Background="{StaticResource Gray950}" StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="3">
                                 <Grid ColumnDefinitions="*, Auto">
-                                    <Label Text="{Binding PurchaseOrderNumber}" FontAttributes="Bold" FontSize="16" />
-                                    <Label Grid.Column="1" Text="{Binding GrandTotal, StringFormat='Total: {0:C}'}" TextColor="Blue" FontAttributes="Bold" />
+                                    <Label Text="No. de Pedido" FontAttributes="Bold" FontSize="16"/>
+                                    <Label Grid.Column="1" Text="{Binding PurchaseOrderNumber}" FontAttributes="Bold" FontSize="16" />
                                 </Grid>
-                                <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
-                                <Label Text="{Binding ShipmentCost, StringFormat='Envío: {0:C}'}" FontSize="12" />
+                                <Border/>
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding RegistrationDate, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" FontSize="12" />
+                                        <Label Text="{Binding ShipmentCost, StringFormat='Envío: {0:C}'}" FontSize="12" />
+                                        <Label Text="{Binding GrandTotal, StringFormat='Total: {0:C}'}" TextColor="DeepSkyBlue" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1" VerticalOptions="Start"
+                                            Text="Ver Detalle del Pedido" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PurchaseHistoryVM}}, Path=GoToDetailsCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Margin="0,10,0,0"
+                                            HorizontalOptions="End" />
+                                </Grid>
                                 
-                                <Button Text="Ver Detalle del Pedido" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PurchaseHistoryVM}}, Path=GoToDetailsCommand}"
-                                        CommandParameter="{Binding .}"
-                                        Margin="0,10,0,0"
-                                        HorizontalOptions="End" />
                             </VerticalStackLayout>
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

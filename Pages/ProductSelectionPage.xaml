@@ -30,15 +30,15 @@
         <CollectionView Grid.Row="2" ItemsSource="{Binding Products}" Margin="0">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDTO">
-                    <Border Margin="0,0,0,10" Padding="15" StrokeThickness="0">
+                    <Border Margin="0,0,0,10" Padding="15" StrokeThickness="0" Background="{StaticResource Gray950}">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="5"/>
                         </Border.StrokeShape>
                         <Grid ColumnDefinitions="*, Auto">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Description}" FontSize="18" FontAttributes="Bold" />
-                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" />
-                                <Label Text="{Binding Stock, StringFormat='Existencias: {0}'}" FontSize="12" />
+                                <Label Text="{Binding CategoryDescription, StringFormat='Categoría: {0}'}" FontSize="12"/>
+                                <Label Text="{Binding Stock, StringFormat='Existencias: {0}'}" FontSize="12"/>
                                 <Label Text="{Binding SalePrice, StringFormat='Precio: {0:C}'}" TextColor="Green" FontAttributes="Bold"/>
                             </VerticalStackLayout>
 

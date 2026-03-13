@@ -16,7 +16,7 @@
         <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,20">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:SaleDetailDTO">
-                    <Border Margin="0,0,0,10" Padding="10" StrokeThickness="0">
+                    <Border Margin="0,0,0,10" Padding="10" StrokeThickness="0" Background="{StaticResource Gray950}">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="5"/>
                         </Border.StrokeShape>
@@ -28,7 +28,7 @@
                             </VerticalStackLayout>
                             
                             <!-- Control de Cantidad -->
-                            <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="5" Margin="0,0,10,0">
+                            <HorizontalStackLayout Grid.Column="1" VerticalOptions="Start" Spacing="5" Margin="0,0,10,0">
                                 <Button Text="-" 
                                         WidthRequest="40" 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartVM}}, Path=DecreaseQuantityCommand}"
@@ -44,7 +44,7 @@
                                         CommandParameter="{Binding .}"/>
                             </HorizontalStackLayout>
 
-                            <Button Grid.Column="2" 
+                            <Button Grid.Column="2" VerticalOptions="Start"
                                     Text="Eliminar" 
                                     BackgroundColor="Red" 
                                     TextColor="White"
