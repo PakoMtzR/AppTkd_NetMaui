@@ -4,6 +4,7 @@ using MauiApp1.DTOs;
 using MauiApp1.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MauiApp1.Viewmodels
 {
@@ -19,6 +20,12 @@ namespace MauiApp1.Viewmodels
         // Total del carrito, se actualiza automáticamente al cambiar los items
         [ObservableProperty]
         private decimal total;
+
+        [ObservableProperty]
+        private decimal payWith;
+
+        [ObservableProperty]
+        private decimal change;
 
         [ObservableProperty]
         private string? clientName;
@@ -39,6 +46,21 @@ namespace MauiApp1.Viewmodels
         private void UpdateTotal()
         {
             Total = _cartService.TotalCart;
+        }
+
+        partial void OnPayWithChanged(decimal value) => CalculateChange();
+        partial void OnTotalChanged(decimal value) => CalculateChange();
+
+        private void CalculateChange()
+        {
+            if (PayWith >= Total && Total > 0)
+            {
+                Change = PayWith - Total;
+            }
+            else
+            {
+                Change = 0;
+            }
         }
 
 

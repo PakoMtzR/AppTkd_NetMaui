@@ -25,6 +25,9 @@
 
             <!-- Lista de Productos -->
             <CollectionView ItemsSource="{Binding Sale.SaleDetails}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="1" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="dto:SaleDetailDTO">
                         <Frame Margin="0,0,0,10" Padding="10">

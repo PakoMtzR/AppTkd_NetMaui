@@ -7,8 +7,11 @@
              x:DataType="vm:PurchaseCartVM"
              Title="Revisar Pedido">
 
-    <Grid RowDefinitions="*, Auto" Padding="20">
+    <Grid RowDefinitions="*, Auto" Padding="10">
         <CollectionView Grid.Row="0" ItemsSource="{Binding Items}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="3" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:PurchaseOrderDetailDTO">
                     <Border Margin="0,0,0,10" Padding="10" StrokeThickness="0" Background="{StaticResource Gray950}">
@@ -56,7 +59,7 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="5"/>
             </Border.StrokeShape>
-            <VerticalStackLayout  Spacing="10" >
+            <VerticalStackLayout  Spacing="8" >
                 <Grid ColumnDefinitions="*, Auto">
                     <Label Text="Subtotal Productos:" VerticalOptions="Center" />
                     <Label Grid.Column="1" Text="{Binding TotalOrder, StringFormat='{0:C}'}" FontAttributes="Bold" />
@@ -73,6 +76,9 @@
                 <Button Text="Confirmar y Sumar a Inventario" 
                         Command="{Binding FinalizePurchaseCommand}"
                         BackgroundColor="Blue" TextColor="White" HeightRequest="50" Margin="0,10,0,0" />
+                <Button Text="Limpiar Carrito" 
+                        Command="{Binding CleanCartCommand}"
+                        BackgroundColor="LightGray" TextColor="Black" HeightRequest="50"/>
             </VerticalStackLayout>
         </Border>
     </Grid>

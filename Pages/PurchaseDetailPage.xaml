@@ -23,6 +23,9 @@
 
             <!-- Lista -->
             <CollectionView ItemsSource="{Binding Order.PurchaseOrderDetails}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="1" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="dto:PurchaseOrderDetailDTO">
                         <Frame Margin="0,0,0,10" Padding="10">

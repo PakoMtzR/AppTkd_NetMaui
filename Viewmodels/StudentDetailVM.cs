@@ -152,27 +152,33 @@ namespace MauiApp1.Viewmodels
             if (Student == null)
                 return;
 
+            // Guardamos usando solo mayusculas
+            Student.Name = Student.Name.ToUpper();
+            Student.PaternalSurname = Student.PaternalSurname?.ToUpper();
+            Student.MaternalSurname = Student.MaternalSurname?.ToUpper();
+            Student.Address = Student.Address?.ToUpper();
+
             // FKs are already updated by OnSelected...Changed methods
             // Now ensure they are set if not selected by the user (e.g., default value)
             if (SelectedOccupation != null) Student.IdStudentOccupation = SelectedOccupation.IdStudentOccupation;
             if (SelectedMaritalStatus != null) Student.IdStudentMaritalStatus = SelectedMaritalStatus.IdStudentMaritalStatus;
             if (SelectedBelt != null) Student.IdStudentBelt = SelectedBelt.IdStudentBelt;
 
-
             StudentDTO savedStudent;
+
             if (Student.IdStudent == 0)
             {
-                // New student
-                savedStudent = await _studentService.Add(Student); // _studentService.Add already returns updated DTO with Id
+                // Nuevo Alumno
+                savedStudent = await _studentService.Add(Student); 
             }
             else
             {
-                // Existing student
+                // Alumno Existente
                 await _studentService.Update(Student);
                 savedStudent = Student; // For updates, the passed DTO is already updated
             }
 
-            // Pass the saved student back to the previous page
+            // Cuando guarde el Alumno, regresa a la pagina anterior
             await Shell.Current.GoToAsync("..", new Dictionary<string, object>
             {
                 { "SavedStudent", savedStudent }

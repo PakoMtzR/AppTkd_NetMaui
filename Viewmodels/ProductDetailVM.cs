@@ -134,6 +134,8 @@ namespace MauiApp1.Viewmodels
             if (Product == null)
                 return;
 
+            Product.Description = Product.Description.ToUpper();
+
             // Ensure FKs are set if selected by the user
             if (SelectedCategory != null) Product.IdCategory = SelectedCategory.IdCategory;
             if (SelectedBrand != null) Product.IdBrand = SelectedBrand.IdBrand;

@@ -13,6 +13,9 @@
                 Margin="10" />
 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Sales}" Margin="10">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="3" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:SaleDTO">
                     <Border Margin="0,0,0,10" Padding="15" Background="{StaticResource Gray950}" StrokeThickness="0">
